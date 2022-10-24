@@ -1,6 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const Bus = require("../../model/getBusModel");
 const Stops = require("../../model/getStopsModel");
+const Location = require("../../model/LocationModel.js");
 
 //api endpoint go post the location to the server
 
@@ -80,6 +81,25 @@ const busStops = asyncHandler(async (req, res) => {
   res.json({ data: data });
 });
 
+const updateLocation = asyncHandler(async (req, res) => {
+  const { lat, lng, bus } = req.body;
+  data = await Location.findOne({ bus: bus });
+  if (!data) {
+    const response = await Location.create({ lat: lat, lng: lng, bus: bus });
+    if (!response) {
+      console.log(response);
+    }
+    res.json({ data: response });
+  } else {
+    const response = await Location.findOneAndUpdate(
+      { bus: bus },
+      { lat: lat, lng: lng },
+      { new: true }
+    );
+    res.json({ data: response });
+  }
+});
+
 module.exports = {
   busStops,
   updateStopsData,
@@ -87,4 +107,5 @@ module.exports = {
   getBusData,
   getStopsData,
   addStopsData,
+  updateLocation,
 };
