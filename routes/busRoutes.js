@@ -8,6 +8,7 @@ const {
   updateStopsData,
   busStops,
   updateLocation,
+  getLocationData,
 } = require("./controller/dataController");
 
 router.post("/getBus", getBusData);
@@ -17,5 +18,5 @@ router.post("/postStops", addStopsData);
 router.post("/updateStops", updateStopsData);
 router.post("/getBusStops", busStops);
 router.post("/location", updateLocation);
-
+router.post("/getLocation", getLocationData);
 module.exports = router;

@@ -1,3 +1,4 @@
+const { response } = require("express");
 const asyncHandler = require("express-async-handler");
 const Bus = require("../../model/getBusModel");
 const Stops = require("../../model/getStopsModel");
@@ -100,6 +101,16 @@ const updateLocation = asyncHandler(async (req, res) => {
   }
 });
 
+const getLocationData = asyncHandler(async (req, res) => {
+  const { bus } = req.body;
+  const data = await Location.findOne({ bus: bus });
+  if (!data) {
+    throw new Error("Bus not found");
+  } else {
+    res.json({ data: data });
+  }
+});
+
 module.exports = {
   busStops,
   updateStopsData,
@@ -108,4 +119,5 @@ module.exports = {
   getStopsData,
   addStopsData,
   updateLocation,
+  getLocationData,
 };
